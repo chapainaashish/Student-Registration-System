@@ -1,4 +1,8 @@
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
 /*
@@ -39,10 +43,9 @@ public class AddNewStudent extends javax.swing.JFrame {
         jTextField4 = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -67,7 +70,7 @@ public class AddNewStudent extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 0, 102));
         jLabel3.setText("ADD STUDENT");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 10, 343, 71));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 10, 440, 71));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setText("EMAIL:");
@@ -90,10 +93,6 @@ public class AddNewStudent extends javax.swing.JFrame {
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 440, 113, 46));
         getContentPane().add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 440, 240, 46));
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton1.setText("ADD");
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 520, 140, 44));
-
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton2.setText("CLOSE");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -112,8 +111,13 @@ public class AddNewStudent extends javax.swing.JFrame {
         });
         getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 649, -1, 47));
 
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/login_1.jpg"))); // NOI18N
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        jButton1.setText("ADD");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 520, 100, 50));
 
         pack();
         setLocationRelativeTo(null);
@@ -133,14 +137,56 @@ public class AddNewStudent extends javax.swing.JFrame {
             System.exit(0);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
-
+    
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_jTextField4ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
+
+        
     }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        String firstname = jTextField1.getText();
+        String lastname = jTextField2.getText();
+        String email = jTextField3.getText();
+        String phone = jTextField4.getText();
+        String city = jTextField5.getText();
+        
+        
+         try {
+        Class.forName("com.mysql.jdbc.Driver");  
+        Connection connection=DriverManager.getConnection(  
+    "jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6636488","sql6636488","Wta1pUBw87");
+        
+        // Inserting
+        String insertQuery = "INSERT INTO Student (first_name, last_name, phone, email, city) VALUES (?, ?, ?, ?, ?)";    // Step 4: Create a prepared statement
+        PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+        preparedStatement.setString(1, firstname);
+        preparedStatement.setString(2, lastname);
+        preparedStatement.setString(3, phone);
+        preparedStatement.setString(4, email);
+        preparedStatement.setString(5, city);
+
+        // Executing and closing
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
+        connection.close();
+
+        
+        
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        
+
+        
+        setVisible(false);
+            new Home().setVisible(true);    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     /**
      * @param args the command line arguments
@@ -188,7 +234,6 @@ public class AddNewStudent extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;

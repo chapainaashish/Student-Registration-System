@@ -1,5 +1,6 @@
 
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -140,8 +141,11 @@ public class Home extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-         setVisible(false);
-            new LIST_student().setVisible(true);
+        setVisible(false);
+         SwingUtilities.invokeLater(() -> {
+            LIST_Student app = new LIST_Student();
+            app.setVisible(true);
+        });
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

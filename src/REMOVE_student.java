@@ -1,5 +1,8 @@
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import javax.swing.JOptionPane;
+import java.sql.Statement;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -52,6 +55,11 @@ public class REMOVE_student extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton1.setText("REMOVE");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(324, 285, 121, 49));
 
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -93,6 +101,37 @@ public class REMOVE_student extends javax.swing.JFrame {
             System.exit(0);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+         try {
+            Class.forName("com.mysql.jdbc.Driver");  
+            Connection connection=DriverManager.getConnection(  
+        "jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6636488","sql6636488","Wta1pUBw87");
+           
+            
+        String studentId = jTextField1.getText();
+        int studentIdToRemove = Integer.parseInt(studentId);
+        
+        
+        String deleteSql = "DELETE FROM Student WHERE id = " + studentIdToRemove;
+        Statement statement = connection.createStatement();
+        int rowsAffected = statement.executeUpdate(deleteSql);
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+         
+         
+        
+        setVisible(false);
+            new Home().setVisible(true); 
+         
+         
+         
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -111,8 +111,13 @@ public class UPDATE_student extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        
+               
+        String studentId = jTextField1.getText();
+        int studentIdToRemove = Integer.parseInt(studentId);
+        
         setVisible(false);
-        new UpdateForm().setVisible(true);
+        new UpdateForm(studentIdToRemove).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

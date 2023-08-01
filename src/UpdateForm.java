@@ -1,5 +1,10 @@
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import javax.swing.JOptionPane;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -11,12 +16,54 @@ import javax.swing.JOptionPane;
  * @author milan
  */
 public class UpdateForm extends javax.swing.JFrame {
+    int sid;
 
     /**
      * Creates new form stdlist
      */
-    public UpdateForm() {
+    public UpdateForm(int sid) {
+        
         initComponents();
+        this.sid = sid;
+        
+        try{ 
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection(
+                    "jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6636488", "sql6636488", "Wta1pUBw87");
+            
+            String sqlQuery = "SELECT first_name, last_name, phone, email, city FROM Student WHERE id = ?";
+
+            // Create a prepared statement to prevent SQL injection
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+
+            // Set the parameter (studentId) for the prepared statement
+            preparedStatement.setInt(1, sid);
+
+            // Execute the query and get the result set
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+            
+            if (resultSet.next()) {
+                String firstName = resultSet.getString("first_name");
+                String lastName = resultSet.getString("last_name");
+                String phone = resultSet.getString("phone");
+                String email = resultSet.getString("email");
+                String city = resultSet.getString("city");
+                
+                
+                jTextField1.setText(firstName);
+                jTextField2.setText(lastName);
+                jTextField3.setText(email);
+                jTextField4.setText(phone);
+                jTextField5.setText(city);
+
+            }
+        
+         } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        
     }
 
     /**
@@ -51,7 +98,7 @@ public class UpdateForm extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 0, 102));
         jLabel1.setText("UPDATE STUDENT");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 440, 75));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 520, 50));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setText("FirstName:");
@@ -103,6 +150,11 @@ public class UpdateForm extends javax.swing.JFrame {
 
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton3.setText("UPDATE");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(344, 544, -1, 42));
         getContentPane().add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 200, 250, 50));
 
@@ -132,6 +184,56 @@ public class UpdateForm extends javax.swing.JFrame {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        
+                
+        try{ 
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection(
+                    "jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6636488", "sql6636488", "Wta1pUBw87");
+                        
+            String sqlUpdate = "UPDATE Student SET first_name = ?, last_name = ?, phone = ?, email = ?, city = ? WHERE id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlUpdate);
+            
+            
+            String firstname = jTextField1.getText();
+            String lastname = jTextField2.getText();
+            String email = jTextField3.getText();
+            String phone = jTextField4.getText();
+            String city = jTextField5.getText();
+           
+
+            
+            preparedStatement.setString(1, firstname);
+            preparedStatement.setString(2, lastname);
+            preparedStatement.setString(3, phone);
+            preparedStatement.setString(4, email);
+            preparedStatement.setString(5, city);
+            String sidN = Integer.toString(sid);
+            preparedStatement.setString(6, sidN);
+
+
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+            connection.close();
+
+
+
+
+        
+         } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+          
+        setVisible(false);
+            new Home().setVisible(true);                                       
+
+
+      
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
