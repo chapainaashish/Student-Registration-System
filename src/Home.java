@@ -163,7 +163,7 @@ public class Home extends javax.swing.JFrame {
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
         setVisible(false);
-       new attendence().setVisible(true);
+       new CheckboxGenerator().setVisible(true);
         
     }//GEN-LAST:event_jButton7ActionPerformed
 
